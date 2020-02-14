@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lista</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="knockout.js"></script>
+</head>
+<body>
+    
+ 
+    <div>Produto e Preço: 
+        <input data-bind="value: produtoAdd"/>
+        <input data-bind="value: precoAdd">
+    </div>
+
+    <ul data-bind="foreach: produtoPreco">
+        <li data-bind="text: produto"></li>
+    </ul>
+
+
+    <script>
+
+        var self = this;
+
+
+        function ListaDeCompras() {
+        
+        self.produtoPreco = ko.observableArray([
+            {
+                produto: [], 
+                preco: [],
+            }
+        ]);
+
+        self.addProduto = produtoPreco.produto;
+        self.addPreco = produtoPreco.preco;
+
+        
+        
+        self.adicionar = function(){
+            if (add().length >= 0) {
+                self.produtoPreco()[0].produto.push(self.addProduto());
+                self.produtoPreco()[0].preco.push(self.addPreco());
+                self.add("");
+            }
+        }
+        
+    }
+    
+     ko.applyBindings(ListaDeCompras);
+
+// var SimpleListModel = function(items,its) 
+// {
+//     this.items = ko.observableArray(items);
+//     this.its = ko.observableArray(its);
+//     this.itemToAdd = ko.observable("");
+//     this.itemToAdd2 = ko.observable("");
+//     this.addItem = function()
+//      {
+//         if (this.itemToAdd() != "")
+//          {
+//             this.items.push(this.itemToAdd()); // Adds the item. Writing to the "items" observableArray causes any associated UI to update.
+//             this.itemToAdd(""); // Clears the text box, because it's bound to the "itemToAdd" observable
+//             this.its.push(this.itemToAdd2());
+//             this.itemToAdd2("")
+//         }
+//     }.bind(this);  // Ensure that "this" is always this view model
+// };
+ 
+// ko.applyBindings(new SimpleListModel([]));
+
+    </script>
+</body>
+</html>
