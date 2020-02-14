@@ -10,68 +10,87 @@
 </head>
 <body>
     
- 
-    <div>Produto e Preço: 
-        <input data-bind="value: produtoAdd"/>
-        <input data-bind="value: precoAdd">
-    </div>
+        <div class="listaProdutos">                   
+            Produto: 
+            <input data-bind='value: addProduto, valueUpdate: "afterkeydown"' />
+            Preço: 
+            <input data-bind="value: addPreco, valueUpdate: 'afterkeydown'">
+            <button type="submit" data-bind="enable: addProduto().length && addPreco().length > 0">Add</button>
+            <p>Your items:
+            <span data-bind="text: produto"></span>
+            <span data-bind="text: preco"></span>
+            </p>
+        <div>
 
-    <ul data-bind="foreach: produtoPreco">
-        <li data-bind="text: produto"></li>
-    </ul>
+        <div class="listaPassada">
+            <tbody data-bind="foreach: listaAntiga">
+                <tr>
+                    <td data-bind="text: produto"></td>
+                    <td data-bind="text: preco"></td>
+                </tr>
+                
 
 
-    <script>
-
-        var self = this;
+            </tbody>
 
 
-        function ListaDeCompras() {
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
         
-        self.produtoPreco = ko.observableArray([
-            {
-                produto: [], 
-                preco: [],
-            }
-        ]);
 
-        self.addProduto = produtoPreco.produto;
-        self.addPreco = produtoPreco.preco;
-
+var SimpleListModel = function(produto,preco) 
+{
+    this.produto = ko.observableArray(produto);
+    this.preco = ko.observableArray(preco);
+    this.addProduto = ko.observable("");
+    this.addPreco = ko.observable("");
+    this.addItem = function(){
         
-        
-        self.adicionar = function(){
-            if (add().length >= 0) {
-                self.produtoPreco()[0].produto.push(self.addProduto());
-                self.produtoPreco()[0].preco.push(self.addPreco());
-                self.add("");
-            }
+        if (this.addProduto() != "" && this.addPreco() !="" ) {
+            this.produto.push(this.addProduto()); 
+            this.addProduto(""); 
+            this.preco.push(this.addPreco());
+            this.addPreco("");
+        }else{
+            alert("Produto ou preço não informado");
+            this.addProduto("");
+            this.addPreco("");
         }
-        
-    }
-    
-     ko.applyBindings(ListaDeCompras);
+    }.bind(this);  
+}; 
+ko.applyBindings(new SimpleListModel([])); 
 
-// var SimpleListModel = function(items,its) 
-// {
-//     this.items = ko.observableArray(items);
-//     this.its = ko.observableArray(its);
-//     this.itemToAdd = ko.observable("");
-//     this.itemToAdd2 = ko.observable("");
-//     this.addItem = function()
-//      {
-//         if (this.itemToAdd() != "")
-//          {
-//             this.items.push(this.itemToAdd()); // Adds the item. Writing to the "items" observableArray causes any associated UI to update.
-//             this.itemToAdd(""); // Clears the text box, because it's bound to the "itemToAdd" observable
-//             this.its.push(this.itemToAdd2());
-//             this.itemToAdd2("")
-//         }
-//     }.bind(this);  // Ensure that "this" is always this view model
-// };
- 
-// ko.applyBindings(new SimpleListModel([]));
+
+    ko.applyBindings({
+        listaAntiga: [
+        
+        {produto: 'Arroz', preco: '17.99'},
+        {produto: 'Feijão', preco: '9.99'},
+        {produto: 'Banana', preco: '2.99'}
+        ]
+    })
 
     </script>
+
+
+
+
 </body>
 </html>
